@@ -1,79 +1,104 @@
-import { apiFetch } from '../utils/http';
+import { httpClient } from './httpClient';
 import type {
   CompleteTaskRequest,
-  MaintenanceReportResponse,
-  MaintenanceTask,
+  CompleteTasksRequest,
+  InspectionTask,
+  TaskFilter, EquipmentInspectionHistoryItem,
+  ReassignInspectionTaskRequest,
 } from '../types/task';
+import type { CompletedInspectionReportResponse } from '../types/reports';
 
-export async function getPendingTasksForEngineer(
+const TASKS_BASE_URL = '/api/inspection-tasks';
+const REPORTS_BASE_URL = '/api/inspection-reports';
+
+function buildUrl(path: string, params: URLSearchParams): string {
+  const query = params.toString();
+  return query ? `${path}?${query}` : path;
+}
+
+export function completeTask(
+  taskId: string,
+  payload: CompleteTaskRequest,
+): Promise<CompletedInspectionReportResponse> {
+  return httpClient<CompletedInspectionReportResponse>(
+    `${REPORTS_BASE_URL}/tasks/${taskId}/complete`,
+    {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    },
+  );
+}
+
+export function completeTasks(
+  payload: CompleteTasksRequest,
+): Promise<CompletedInspectionReportResponse> {
+  return httpClient<CompletedInspectionReportResponse>(
+    `${REPORTS_BASE_URL}/complete`,
+    {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    },
+  );
+}
+
+export function getTasksForEngineer(
   engineerId: string,
-  date: string
-): Promise<MaintenanceTask[]> {
+  startDate: string,
+  endDate: string,
+  filter: TaskFilter = 'PLANNED',
+): Promise<InspectionTask[]> {
   const params = new URLSearchParams();
 
-  if (date) {
-    params.set('date', date);
-  }
+  params.set('startDate', startDate);
+  params.set('endDate', endDate);
+  params.set('filter', filter);
 
-  const response = await fetch(`/api/tasks/engineers/${engineerId}/pending?${params.toString()}`);
-
-  if (!response.ok) {
-    throw new Error('Failed to load tasks.');
-  }
-
-  return response.json();
+  return httpClient<InspectionTask[]>(
+    buildUrl(`${TASKS_BASE_URL}/engineers/${engineerId}`, params),
+  );
 }
 
-export function getTaskById(taskId: string): Promise<MaintenanceTask> {
-  return apiFetch<MaintenanceTask>(`/api/tasks/${taskId}`);
-}
-
-export function completeTask(taskId: string, payload: CompleteTaskRequest): Promise<MaintenanceReportResponse> {
-  return apiFetch<MaintenanceReportResponse>(`/api/reports/tasks/${taskId}/complete`, {
-    method: 'POST',
-    body: JSON.stringify(payload),
-  });
-}
-
-function getFileNameFromContentDisposition(header: string | null): string | null {
-  if (!header) {
-    return null;
-  }
-
-  const match = header.match(/filename="?([^"]+)"?/);
-  return match?.[1] ?? null;
-}
-
-export async function generateTaskReportPdf(
+export async function downloadInspectionReportPdfByTaskId(
   taskId: string,
-  payload: CompleteTaskRequest
 ): Promise<void> {
-  const response = await fetch(`/api/reports/tasks/${taskId}/pdf`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(payload),
+  const response = await fetch(`${REPORTS_BASE_URL}/tasks/${taskId}/pdf`, {
+    method: 'GET',
   });
 
   if (!response.ok) {
-    const message = await response.text();
-    throw new Error(message || 'Failed to generate report PDF.');
+    throw new Error('Failed to download inspection report PDF.');
   }
 
   const blob = await response.blob();
-  const fileName =
-    getFileNameFromContentDisposition(response.headers.get('Content-Disposition')) ??
-    `maintenance-report-${taskId}.pdf`;
-
   const url = window.URL.createObjectURL(blob);
 
   const link = document.createElement('a');
   link.href = url;
-  link.download = fileName;
+  link.download = `inspection-report-${taskId}.pdf`;
   document.body.appendChild(link);
   link.click();
 
   link.remove();
   window.URL.revokeObjectURL(url);
+}
+
+export function getEquipmentHistoryForTask(
+  taskId: string,
+): Promise<EquipmentInspectionHistoryItem[]> {
+  return httpClient<EquipmentInspectionHistoryItem[]>(
+    `${TASKS_BASE_URL}/${taskId}/equipment-history`,
+  );
+}
+
+export function reassignInspectionTask(
+  taskId: string,
+  payload: ReassignInspectionTaskRequest,
+): Promise<InspectionTask> {
+  return httpClient<InspectionTask>(
+    `${TASKS_BASE_URL}/${taskId}/reassign`,
+    {
+      method: 'PATCH',
+      body: JSON.stringify(payload),
+    },
+  );
 }

@@ -1,35 +1,78 @@
-export type TaskStatus = 'PLANNED' | 'COMPLETED' | 'CANCELLED';
+import type { EngineerSummary } from './engineers';
+import type { EquipmentSummary } from './equipment';
 
-export type MaintenanceResult = 'PASSED' | 'FAILED' | 'REQUIRES_FOLLOW_UP';
+export type TaskStatus =
+  | 'PLANNED'
+  | 'ASSIGNED'
+  | 'COMPLETED'
+  | 'CANCELLED'
+  | 'SKIPPED';
 
-export interface MaintenanceTask {
+export type TaskSource = 'GENERATED' | 'MANUAL';
+
+export type InspectionResult = 'PASSED' | 'FAILED' | 'FOLLOW_UP';
+
+export type TaskFilter = 'ALL' | 'PLANNED' | 'COMPLETED' | 'FOLLOW_UP' | 'FAILED';
+
+export interface InspectionTask {
   id: string;
-  equipmentId: string;
-  equipmentName: string;
-  engineerId: string;
-  engineerName: string;
-  scheduledDate: string;
+  equipment: EquipmentSummary;
+  assignedEngineer: EngineerSummary | null;
+  plannedDate: string;
+  plannedYear: number;
+  occurrenceNumber: number | null;
+  generationKey: string | null;
+  source: TaskSource;
   status: TaskStatus;
-  generatedByPlanner: boolean;
-  completedAt?: string | null;
+  result: InspectionResult | null;
+  inspectionReportId?: string | null;
+  completedAt: string | null;
+  createdAt: string;
+  updatedAt: string;
+  code: string;
+}
+
+export type MaintenanceTask = InspectionTask;
+
+
+export interface CreateManualInspectionTaskRequest {
+  equipmentId: string;
+  assignedEngineerId?: string | null;
+  plannedDate: string;
+}
+
+export interface ReassignInspectionTaskRequest {
+  assignedEngineerId: string;
+}
+
+export interface MoveInspectionTaskRequest {
+  plannedDate: string;
 }
 
 export interface CompleteTaskRequest {
   observations: string;
-  result: MaintenanceResult;
-  performedAt?: string | null;
+  result: InspectionResult;
+  performedAt: string | null;
+  reportTemplateCode: string;
 }
 
-export interface MaintenanceReportResponse {
-  id: string;
+export interface CompleteTaskItemRequest {
   taskId: string;
-  equipmentId: string;
-  equipmentName: string;
-  engineerId: string;
-  engineerName: string;
-  scheduledDate: string;
   observations: string;
-  result: MaintenanceResult;
-  performedAt: string;
-  createdAt: string;
+  result: InspectionResult;
+}
+
+export interface CompleteTasksRequest {
+  items: CompleteTaskItemRequest[];
+  performedAt: string | null;
+  reportTemplateCode: string;
+}
+
+export interface EquipmentInspectionHistoryItem {
+  performedAt: string | null;
+  observations: string | null;
+  result: InspectionResult | null;
+  engineerName: string | null;
+  reportNumber: string | null;
+  fileName: string | null;
 }

@@ -12,7 +12,8 @@ export const router = createBrowserRouter([
       { index: true, element: <Navigate to="/my-tasks" replace /> },
       { path: 'my-tasks', element: <MyTasksPage /> },
       { path: 'equipments', element: <EquipmentsPage /> },
-     { path: 'engineers', element: <EngineersPage /> }
+     { path: 'engineers', element: <EngineersPage /> },
+    //  { path: 'my-agenda', element: <MyAgendaPage /> }
     ],
   },
 ]);

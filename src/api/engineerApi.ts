@@ -1,34 +1,39 @@
-import type { CreateEngineerRequest, Engineer } from "../types/engineers";
+import { httpClient } from './httpClient';
+import type {
+  CreateEngineerRequest,
+  Engineer,
+  UpdateEngineerRequest,
+} from '../types/engineers';
 
-const BASE_URL = "/api/engineers";
+const BASE_URL = '/api/engineers';
 
-async function handleResponse<T>(response: Response): Promise<T> {
-  if (!response.ok) {
-    const text = await response.text();
-    throw new Error(text || "Request failed");
-  }
-  return response.json() as Promise<T>;
+export function getEngineers(): Promise<Engineer[]> {
+  return httpClient<Engineer[]>(BASE_URL);
 }
 
-export async function getEngineers(): Promise<Engineer[]> {
-  const response = await fetch(BASE_URL, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-
-  return handleResponse<Engineer[]>(response);
+export function getEngineerById(engineerId: string): Promise<Engineer> {
+  return httpClient<Engineer>(`${BASE_URL}/${engineerId}`);
 }
 
-export async function createEngineer(payload: CreateEngineerRequest): Promise<Engineer> {
-  const response = await fetch(BASE_URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
+export function createEngineer(payload: CreateEngineerRequest): Promise<Engineer> {
+  return httpClient<Engineer>(BASE_URL, {
+    method: 'POST',
     body: JSON.stringify(payload),
   });
+}
 
-  return handleResponse<Engineer>(response);
+export function updateEngineer(
+  engineerId: string,
+  payload: UpdateEngineerRequest,
+): Promise<Engineer> {
+  return httpClient<Engineer>(`${BASE_URL}/${engineerId}`, {
+    method: 'PUT',
+    body: JSON.stringify(payload),
+  });
+}
+
+export function deleteEngineer(engineerId: string): Promise<void> {
+  return httpClient<void>(`${BASE_URL}/${engineerId}`, {
+    method: 'DELETE',
+  });
 }

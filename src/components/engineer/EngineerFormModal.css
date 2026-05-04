@@ -7,42 +7,56 @@
   padding: 24px;
   background:
     radial-gradient(circle at 20% 10%, rgba(139, 92, 246, 0.22), transparent 30rem),
-    radial-gradient(circle at 80% 90%, rgba(14, 165, 233, 0.14), transparent 28rem),
+    radial-gradient(circle at 80% 90%, var(--app-accent-soft), transparent 28rem),
     rgba(2, 6, 23, 0.68);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
 }
 
+:root[data-theme='light'] .engineer-form-modal {
+  background:
+    radial-gradient(circle at 20% 10%, rgba(139, 92, 246, 0.16), transparent 30rem),
+    radial-gradient(circle at 80% 90%, var(--app-accent-soft), transparent 28rem),
+    rgba(7, 17, 31, 0.34);
+}
+
+.engineer-form-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.engineer-form-modal__backdrop:disabled {
+  cursor: not-allowed;
+}
+
 .engineer-form-modal__card {
   position: relative;
+  z-index: 1;
   width: min(100%, 620px);
   max-height: calc(100vh - 48px);
   overflow: auto;
-  border: 1px solid var(--border-soft);
+  border: 1px solid var(--app-border);
   border-radius: 30px;
   background:
     linear-gradient(
       135deg,
-      rgba(255, 255, 255, 0.88),
-      rgba(255, 255, 255, 0.64)
+      var(--app-surface-strong),
+      var(--app-surface)
     );
   box-shadow:
-    var(--shadow-soft),
+    var(--app-shadow-soft),
     0 34px 120px rgba(15, 23, 42, 0.24);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(26px);
+  -webkit-backdrop-filter: blur(26px);
 }
 
-:root[data-theme="dark"] .engineer-form-modal__card {
-  background:
-    linear-gradient(
-      135deg,
-      rgba(15, 23, 42, 0.92),
-      rgba(15, 23, 42, 0.68)
-    );
+:root[data-theme='dark'] .engineer-form-modal__card {
   box-shadow:
-    var(--shadow-soft),
-    0 0 72px rgba(139, 92, 246, 0.16),
+    var(--app-shadow-soft),
+    0 0 72px rgba(48, 242, 255, 0.12),
     0 34px 120px rgba(0, 0, 0, 0.48);
 }
 
@@ -54,10 +68,11 @@
   background:
     linear-gradient(
       135deg,
-      rgba(255, 255, 255, 0.2),
+      rgba(255, 255, 255, 0.18),
       transparent 42%,
-      rgba(139, 92, 246, 0.08)
+      var(--app-accent-soft)
     );
+  opacity: 0.75;
   pointer-events: none;
 }
 
@@ -74,12 +89,12 @@
   justify-content: space-between;
   gap: 18px;
   padding: 26px 26px 20px;
-  border-bottom: 1px solid var(--border-soft);
+  border-bottom: 1px solid var(--app-border);
 }
 
 .engineer-form-modal__eyebrow {
   margin: 0 0 7px;
-  color: var(--text-muted);
+  color: var(--app-text-muted);
   font-size: 0.72rem;
   font-weight: 780;
   letter-spacing: 0.13em;
@@ -88,9 +103,9 @@
 
 .engineer-form-modal__title {
   margin: 0;
-  color: var(--text-primary);
+  color: var(--app-text-main);
   font-size: clamp(1.5rem, 2vw, 2rem);
-  font-weight: 780;
+  font-weight: 500;
   letter-spacing: -0.055em;
   line-height: 1.1;
 }
@@ -98,7 +113,7 @@
 .engineer-form-modal__description {
   max-width: 420px;
   margin: 9px 0 0;
-  color: var(--text-secondary);
+  color: var(--app-text-soft);
   font-size: 0.95rem;
   line-height: 1.55;
 }
@@ -109,10 +124,10 @@
   flex: 0 0 auto;
   width: 40px;
   height: 40px;
-  border: 1px solid var(--border-soft);
+  border: 1px solid var(--app-border);
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.42);
-  color: var(--text-secondary);
+  color: var(--app-text-soft);
   cursor: pointer;
   font-size: 1.35rem;
   line-height: 1;
@@ -123,14 +138,15 @@
     color 180ms ease;
 }
 
-:root[data-theme="dark"] .engineer-form-modal__close-button {
+:root[data-theme='dark'] .engineer-form-modal__close-button {
   background: rgba(255, 255, 255, 0.065);
 }
 
 .engineer-form-modal__close-button:hover:not(:disabled) {
   transform: translateY(-1px);
-  border-color: var(--border-strong);
-  color: var(--text-primary);
+  border-color: var(--app-border-strong);
+  color: var(--app-text-main);
+  background: var(--app-surface-hover);
 }
 
 .engineer-form-modal__close-button:disabled {
@@ -147,15 +163,10 @@
   padding: 13px 14px;
   border: 1px solid rgba(248, 113, 113, 0.26);
   border-radius: 18px;
-  background: rgba(248, 113, 113, 0.11);
-  color: #ef4444;
+  background: var(--app-danger-soft);
+  color: var(--app-danger);
   font-size: 0.9rem;
-  font-weight: 720;
-}
-
-:root[data-theme="dark"] .engineer-form-modal__alert {
-  color: #fca5a5;
-  background: rgba(248, 113, 113, 0.1);
+  font-weight: 500;
 }
 
 .engineer-form-modal__grid {
@@ -176,7 +187,7 @@
 }
 
 .engineer-form-modal__label {
-  color: var(--text-secondary);
+  color: var(--app-text-soft);
   font-size: 0.76rem;
   font-weight: 780;
   letter-spacing: 0.055em;
@@ -187,11 +198,11 @@
   width: 100%;
   min-height: 48px;
   padding: 0 14px;
-  border: 1px solid var(--border-soft);
+  border: 1px solid var(--app-border);
   border-radius: 16px;
   outline: none;
   background: rgba(255, 255, 255, 0.52);
-  color: var(--text-primary);
+  color: var(--app-text-main);
   font-size: 0.95rem;
   font-weight: 620;
   transition:
@@ -200,18 +211,18 @@
     box-shadow 180ms ease;
 }
 
-:root[data-theme="dark"] .engineer-form-modal__input {
+:root[data-theme='dark'] .engineer-form-modal__input {
   background: rgba(255, 255, 255, 0.055);
 }
 
 .engineer-form-modal__input::placeholder {
-  color: var(--text-muted);
+  color: var(--app-text-muted);
   font-weight: 520;
 }
 
 .engineer-form-modal__input:focus {
-  border-color: rgba(139, 92, 246, 0.52);
-  box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.13);
+  border-color: var(--app-accent);
+  box-shadow: 0 0 0 4px var(--app-accent-soft);
 }
 
 .engineer-form-modal__input:disabled {
@@ -226,19 +237,19 @@
   gap: 18px;
   margin-top: 18px;
   padding: 16px;
-  border: 1px solid var(--border-soft);
+  border: 1px solid var(--app-border);
   border-radius: 20px;
   background: rgba(255, 255, 255, 0.38);
   cursor: pointer;
 }
 
-:root[data-theme="dark"] .engineer-form-modal__toggle-row {
+:root[data-theme='dark'] .engineer-form-modal__toggle-row {
   background: rgba(255, 255, 255, 0.045);
 }
 
 .engineer-form-modal__toggle-title {
   display: block;
-  color: var(--text-primary);
+  color: var(--app-text-main);
   font-size: 0.98rem;
   font-weight: 760;
   letter-spacing: -0.02em;
@@ -247,7 +258,7 @@
 .engineer-form-modal__toggle-description {
   display: block;
   margin-top: 5px;
-  color: var(--text-secondary);
+  color: var(--app-text-soft);
   font-size: 0.87rem;
   line-height: 1.45;
 }
@@ -268,7 +279,7 @@
   position: relative;
   width: 54px;
   height: 32px;
-  border: 1px solid var(--border-soft);
+  border: 1px solid var(--app-border);
   border-radius: 999px;
   background: rgba(100, 116, 139, 0.18);
   transition:
@@ -339,27 +350,28 @@
 }
 
 .engineer-form-modal__button--secondary {
-  border-color: var(--border-soft);
+  border-color: var(--app-border);
   background: rgba(255, 255, 255, 0.4);
-  color: var(--text-secondary);
+  color: var(--app-text-soft);
 }
 
-:root[data-theme="dark"] .engineer-form-modal__button--secondary {
+:root[data-theme='dark'] .engineer-form-modal__button--secondary {
   background: rgba(255, 255, 255, 0.055);
 }
 
 .engineer-form-modal__button--secondary:hover:not(:disabled) {
-  border-color: var(--border-strong);
-  color: var(--text-primary);
+  border-color: var(--app-border-strong);
+  color: var(--app-text-main);
+  background: var(--app-surface-hover);
 }
 
 .engineer-form-modal__button--primary {
   color: #ffffff;
-  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
-  box-shadow: 0 16px 36px rgba(99, 102, 241, 0.24);
+  background: linear-gradient(135deg, var(--app-accent), var(--app-accent-strong));
+  box-shadow: 0 16px 36px rgba(48, 242, 255, 0.18);
 }
 
-:root[data-theme="dark"] .engineer-form-modal__button--primary {
+:root[data-theme='dark'] .engineer-form-modal__button--primary {
   box-shadow: 0 16px 42px rgba(139, 92, 246, 0.28);
 }
 
@@ -369,7 +381,7 @@
   border: 2px solid rgba(255, 255, 255, 0.34);
   border-top-color: #ffffff;
   border-radius: 999px;
-  animation: engineer-form-modal-spin 700ms linear infinite;
+  animation: engineer-form-modal-spin 600ms linear infinite;
 }
 
 @keyframes engineer-form-modal-spin {
@@ -380,12 +392,14 @@
 
 @media (max-width: 680px) {
   .engineer-form-modal {
-    padding: 14px;
+    align-items: end;
+    padding: 0;
   }
 
   .engineer-form-modal__card {
-    max-height: calc(100vh - 28px);
-    border-radius: 24px;
+    width: 100%;
+    max-height: 92vh;
+    border-radius: 26px 26px 0 0;
   }
 
   .engineer-form-modal__header {
@@ -426,5 +440,14 @@
   .engineer-form-modal__toggle-row {
     align-items: flex-start;
     flex-direction: column;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .engineer-form-modal *,
+  .engineer-form-modal *::before,
+  .engineer-form-modal *::after {
+    transition: none !important;
+    animation: none !important;
   }
 }

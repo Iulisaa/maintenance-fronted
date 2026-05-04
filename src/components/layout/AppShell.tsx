@@ -8,6 +8,7 @@ const navItems = [
   { to: '/my-tasks', label: 'My Tasks' },
   { to: '/equipments', label: 'Equipments' },
   { to: '/engineers', label: 'Engineers' },
+  { to: '/my-agenda', label: 'My Agenda' }
 ];
 
 function getInitialTheme(): ThemeMode {

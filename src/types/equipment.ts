@@ -1,19 +1,31 @@
-export type EquipmentSeasonType = "HEAT" | "COLD" | "UNIVERSAL";
+import type { EngineerSummary } from './engineers';
+
+export type EquipmentSeasonType = 'HEAT' | 'COLD' | 'UNIVERSAL';
 
 export interface Equipment {
   id: string;
   name: string;
   code: string;
+  categoryId: string;
+  categoryName: string;
   active: boolean;
   seasonType: EquipmentSeasonType;
+  frequencyPerYear: number;
+  estimatedDurationMinutes: number;
   serialNumber?: string | null;
   notes?: string | null;
-  assignedEngineerId: string;
-  assignedEngineerName: string;
-  recurrencePerYear?: number | null;
-  estimatedDurationMinutes?: number | null;
   activeMonths: number[];
-  reportTemplateCode?: string | null;
+  defaultEngineer?: {
+    id: string;
+    fullName: string;
+    email: string;
+  } | null;
+}
+export interface EquipmentSummary {
+  id: string;
+  name: string;
+  seasonType: EquipmentSeasonType;
+  code: string;
 }
 
 export interface CreateEquipmentRequest {
@@ -21,10 +33,24 @@ export interface CreateEquipmentRequest {
   code: string;
   active: boolean;
   seasonType: EquipmentSeasonType;
+  frequencyPerYear: number;
+  estimatedDurationMinutes: number;
   serialNumber?: string | null;
   notes?: string | null;
-  assignedEngineerId: string;
-  recurrencePerYear: number;
+  defaultEngineerId?: string | null;
+  activeMonths: number[];
+  categoryId: string;
+}
+
+export interface UpdateEquipmentRequest {
+  name: string;
+  code: string;
+  active: boolean;
+  seasonType: EquipmentSeasonType;
+  frequencyPerYear: number;
   estimatedDurationMinutes: number;
-  reportTemplateCode: string;
+  serialNumber?: string | null;
+  notes?: string | null;
+  defaultEngineerId?: string | null;
+  activeMonths: number[];
 }

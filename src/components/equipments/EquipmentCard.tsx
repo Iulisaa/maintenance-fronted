@@ -3,33 +3,8 @@ import './EquipmentCard.css';
 
 interface EquipmentCardProps {
   equipment: Equipment;
-}
-
-const monthLabels: Record<number, string> = {
-  1: 'Jan',
-  2: 'Feb',
-  3: 'Mar',
-  4: 'Apr',
-  5: 'May',
-  6: 'Jun',
-  7: 'Jul',
-  8: 'Aug',
-  9: 'Sep',
-  10: 'Oct',
-  11: 'Nov',
-  12: 'Dec',
-};
-
-function formatActiveMonths(activeMonths?: number[] | null): string {
-  if (!activeMonths?.length) {
-    return '-';
-  }
-
-  const validMonths = activeMonths
-    .filter((month) => Number.isInteger(month) && month >= 1 && month <= 12)
-    .map((month) => monthLabels[month]);
-
-  return validMonths.length > 0 ? validMonths.join(', ') : '-';
+  onEdit?: (equipment: Equipment) => void;
+  onDelete?: (equipment: Equipment) => void;
 }
 
 function formatSeasonType(seasonType: EquipmentSeasonType): string {
@@ -51,21 +26,39 @@ function getSeasonClass(seasonType: EquipmentSeasonType): string {
       return 'equipment-summary-card__season--heat';
     case 'COLD':
       return 'equipment-summary-card__season--cold';
-    case 'UNIVERSAL':
-      return 'equipment-summary-card__season--universal';
+     case 'UNIVERSAL':
+      return 'equipment-summary-card__season--all-year';
     default:
       return '';
   }
 }
 
-export default function EquipmentCard({ equipment }: EquipmentCardProps) {
+function formatDate(value?: string): string {
+  if (!value) {
+    return '-';
+  }
+
+  return new Intl.DateTimeFormat('en-GB', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  }).format(new Date(value));
+}
+
+export default function EquipmentCard({
+  equipment,
+  onEdit,
+  onDelete,
+}: EquipmentCardProps) {
   const seasonLabel = formatSeasonType(equipment.seasonType);
 
   return (
     <article className="equipment-summary-card">
       <div className="equipment-summary-card__header">
         <div className="equipment-summary-card__identity">
-        
+          <div className="equipment-summary-card__icon">
+            {equipment.name.slice(0, 2).toUpperCase()}
+          </div>
 
           <div className="equipment-summary-card__main">
             <div className="equipment-summary-card__topline">
@@ -82,7 +75,9 @@ export default function EquipmentCard({ equipment }: EquipmentCardProps) {
 
             <h3 className="equipment-summary-card__title">{equipment.name}</h3>
 
-            <p className="equipment-summary-card__code">{equipment.code}</p>
+            <p className="equipment-summary-card__location">
+              {equipment.code}
+            </p>
           </div>
         </div>
 
@@ -99,20 +94,44 @@ export default function EquipmentCard({ equipment }: EquipmentCardProps) {
 
       <dl className="equipment-summary-card__meta">
         <div className="equipment-summary-card__meta-row">
-          <dt>Engineer</dt>
-          <dd>{equipment.assignedEngineerName || '-'}</dd>
+          <dt>Inspection interval</dt>
+          <dd>{equipment.frequencyPerYear}</dd>
         </div>
 
         <div className="equipment-summary-card__meta-row">
-          <dt>Recurrence</dt>
-          <dd>{equipment.recurrencePerYear ? `${equipment.recurrencePerYear} / year` : '-'}</dd>
+          <dt>Season</dt>
+          <dd>{seasonLabel}</dd>
         </div>
 
-        <div className="equipment-summary-card__meta-row equipment-summary-card__meta-row--wide">
-          <dt>Active months</dt>
-          <dd>{formatActiveMonths(equipment.activeMonths)}</dd>
+        <div className="equipment-summary-card__meta-row">
+          <dt>Code</dt>
+          <dd>{(equipment.code)}</dd>
         </div>
       </dl>
+
+      {(onEdit || onDelete) && (
+        <footer className="equipment-summary-card__actions">
+          {onEdit && (
+            <button
+              type="button"
+              className="equipment-summary-card__button equipment-summary-card__button--secondary"
+              onClick={() => onEdit(equipment)}
+            >
+              Edit
+            </button>
+          )}
+
+          {onDelete && (
+            <button
+              type="button"
+              className="equipment-summary-card__button equipment-summary-card__button--danger"
+              onClick={() => onDelete(equipment)}
+            >
+              Delete
+            </button>
+          )}
+        </footer>
+      )}
     </article>
   );
 }

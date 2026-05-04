@@ -1,4 +1,4 @@
-import { type FormEvent, useState } from 'react';
+import { type FormEvent, useEffect, useState } from 'react';
 import type { CreateEngineerRequest } from '../../types/engineers';
 import './EngineerFormModal.css';
 
@@ -9,11 +9,17 @@ type Props = {
   onSubmit: (payload: CreateEngineerRequest) => Promise<void>;
 };
 
-const initialForm: CreateEngineerRequest = {
-  fullName: '',
+type EngineerFormState = {
+  name: string;
+  email: string;
+  maxTasksPerDay: number;
+};
+
+const initialForm: EngineerFormState = {
+  name: '',
   email: '',
-  active: true,
   maxTasksPerDay: 5,
+
 };
 
 export default function EngineerFormModal({
@@ -22,55 +28,72 @@ export default function EngineerFormModal({
   onClose,
   onSubmit,
 }: Props) {
-  const [form, setForm] = useState<CreateEngineerRequest>(initialForm);
+  const [form, setForm] = useState<EngineerFormState>(initialForm);
   const [error, setError] = useState('');
 
-  if (!open) return null;
+  useEffect(() => {
+    if (open) {
+      setForm(initialForm);
+      setError('');
+    }
+  }, [open]);
+
+  if (!open) {
+    return null;
+  }
 
   const handleClose = () => {
-    if (loading) return;
+    if (loading) {
+      return;
+    }
 
     setForm(initialForm);
     setError('');
     onClose();
   };
 
-  const handleChange = (
-    field: keyof CreateEngineerRequest,
-    value: string | number | boolean,
-  ) => {
-    setForm((prev) => ({
-      ...prev,
+  const handleChange = (field: keyof EngineerFormState, value: string) => {
+    setForm((current) => ({
+      ...current,
       [field]: value,
     }));
+  };
+
+  const validateForm = (): boolean => {
+    const name = form.name.trim();
+    const email = form.email.trim();
+
+    if (!name) {
+      setError('Name is required.');
+      return false;
+    }
+
+    if (!email) {
+      setError('Email is required.');
+      return false;
+    }
+
+    return true;
   };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setError('');
 
-    if (!form.fullName.trim()) {
-      setError('Full name is required.');
-      return;
-    }
-
-    if (!form.email.trim()) {
-      setError('Email is required.');
-      return;
-    }
-
-    if (form.maxTasksPerDay <= 0) {
-      setError('Max tasks per day must be greater than 0.');
+    if (!validateForm()) {
       return;
     }
 
     try {
-      await onSubmit({
-        ...form,
-        fullName: form.fullName.trim(),
-        email: form.email.trim(),
-      });
-
+await onSubmit({
+  name: form.name.trim(),
+  email: form.email.trim(),
+  maxTasksPerDay: form.maxTasksPerDay,
+});
+if (form.maxTasksPerDay <= 0) {
+  setError('Max tasks per day must be greater than 0.');
+  return;
+}
       handleClose();
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to save engineer.');
@@ -84,6 +107,14 @@ export default function EngineerFormModal({
       aria-modal="true"
       aria-labelledby="engineer-form-modal-title"
     >
+      <button
+        type="button"
+        className="engineer-form-modal__backdrop"
+        onClick={handleClose}
+        disabled={loading}
+        aria-label="Close modal"
+      />
+
       <form className="engineer-form-modal__card" onSubmit={handleSubmit}>
         <header className="engineer-form-modal__header">
           <div>
@@ -94,7 +125,7 @@ export default function EngineerFormModal({
             </h2>
 
             <p className="engineer-form-modal__description">
-              Create a new engineer for maintenance assignments.
+              Create a new engineer who can be assigned inspection tasks.
             </p>
           </div>
 
@@ -110,19 +141,24 @@ export default function EngineerFormModal({
         </header>
 
         <div className="engineer-form-modal__body">
-          {error ? <div className="engineer-form-modal__alert">{error}</div> : null}
+          {error && (
+            <div className="engineer-form-modal__alert">
+              {error}
+            </div>
+          )}
 
           <div className="engineer-form-modal__grid">
             <label className="engineer-form-modal__field">
-              <span className="engineer-form-modal__label">Full name</span>
+              <span className="engineer-form-modal__label">Name</span>
 
               <input
                 className="engineer-form-modal__input"
                 type="text"
-                value={form.fullName}
-                onChange={(event) => handleChange('fullName', event.target.value)}
+                value={form.name}
+                onChange={(event) => handleChange('name', event.target.value)}
                 placeholder="John Smith"
                 disabled={loading}
+                autoFocus
               />
             </label>
 
@@ -138,45 +174,15 @@ export default function EngineerFormModal({
                 disabled={loading}
               />
             </label>
+            <dl className="engineer-card__meta">
+  <div className="engineer-card__meta-item">
+    <dt>Max tasks / day</dt>
+    <dd>{form.maxTasksPerDay}</dd>
+  </div>
 
-            <label className="engineer-form-modal__field engineer-form-modal__field--wide">
-              <span className="engineer-form-modal__label">Max tasks per day</span>
-
-              <input
-                className="engineer-form-modal__input"
-                type="number"
-                min={1}
-                value={form.maxTasksPerDay}
-                onChange={(event) =>
-                  handleChange('maxTasksPerDay', Number(event.target.value))
-                }
-                disabled={loading}
-              />
-            </label>
+</dl>
           </div>
-
-          <label className="engineer-form-modal__toggle-row">
-            <div>
-              <span className="engineer-form-modal__toggle-title">Active</span>
-              <small className="engineer-form-modal__toggle-description">
-                Inactive engineers cannot receive new tasks.
-              </small>
-            </div>
-
-            <span className="engineer-form-modal__switch">
-              <input
-                className="engineer-form-modal__switch-input"
-                type="checkbox"
-                checked={form.active}
-                onChange={(event) => handleChange('active', event.target.checked)}
-                disabled={loading}
-              />
-
-              <span className="engineer-form-modal__switch-track">
-                <span className="engineer-form-modal__switch-thumb" />
-              </span>
-            </span>
-          </label>
+          
         </div>
 
         <footer className="engineer-form-modal__actions">
@@ -194,7 +200,7 @@ export default function EngineerFormModal({
             disabled={loading}
             className="engineer-form-modal__button engineer-form-modal__button--primary"
           >
-            {loading ? <span className="engineer-form-modal__spinner" /> : null}
+            {loading && <span className="engineer-form-modal__spinner" />}
             {loading ? 'Saving...' : 'Save engineer'}
           </button>
         </footer>

@@ -1,282 +1,612 @@
+/* =========================================================
+   Page container
+   Main spacing for the entire My Tasks page
+========================================================= */
+
 .my-tasks-page {
   padding: 24px;
 }
 
-.my-tasks-page__hero {
+/* =========================================================
+   Header card
+   Top area with title, description and stats
+========================================================= */
+
+.my-tasks-page__header {
   position: relative;
   overflow: hidden;
-  margin-bottom: 20px;
-  border: 1px solid var(--border-soft);
-  border-radius: 30px;
-  background: var(--bg-glass);
-  box-shadow: var(--shadow-soft);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+  margin-bottom: 18px;
+  border-radius: 28px;
+  background:
+    linear-gradient(135deg, var(--app-surface-strong), var(--app-surface));
+  box-shadow: var(--app-shadow);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
 }
 
-.my-tasks-page__hero::before {
+.my-tasks-page__header::before {
   content: "";
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 10% 0%, rgba(245, 158, 11, 0.16), transparent 34%),
-    radial-gradient(circle at 90% 100%, rgba(139, 92, 246, 0.14), transparent 36%);
+    radial-gradient(circle at 12% 0%, rgba(139, 92, 246, 0.16), transparent 28rem),
+    radial-gradient(circle at 90% 100%, rgba(48, 242, 255, 0.1), transparent 30rem);
   pointer-events: none;
 }
 
-.my-tasks-page__hero-main,
+.my-tasks-page__header-main,
 .my-tasks-page__stats {
   position: relative;
   z-index: 1;
 }
 
-.my-tasks-page__hero-main {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 20px;
-  padding: 24px 24px 18px;
+.my-tasks-page__header-main {
+  padding: 26px 26px 18px;
+}
+
+.my-tasks-page__heading {
+  min-width: 0;
 }
 
 .my-tasks-page__eyebrow {
   margin: 0 0 8px;
-  color: var(--text-muted);
+  color: var(--app-cyan);
   font-size: 0.72rem;
-  font-weight: 780;
-  letter-spacing: 0.13em;
+  font-weight: 500;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
 .my-tasks-page__title {
   margin: 0;
-  color: var(--text-primary);
-  font-size: clamp(1.7rem, 2vw, 2.2rem);
-  font-weight: 600;
-  letter-spacing: -0.055em;
-  line-height: 1.05;
+  color: var(--app-text-main);
+  font-size: clamp(1.9rem, 3vw, 2.7rem);
+  font-weight: 520;
+  letter-spacing: -0.06em;
+  line-height: 1.02;
 }
 
 .my-tasks-page__description {
-  max-width: 680px;
+  max-width: 760px;
   margin: 10px 0 0;
-  color: var(--text-secondary);
-  font-size: 0.97rem;
+  color: var(--app-text-soft);
+  font-size: 0.98rem;
   line-height: 1.6;
 }
 
+/* =========================================================
+   Stats
+   Small cards inside the header
+========================================================= */
+
 .my-tasks-page__stats {
   display: grid;
-  grid-template-columns: 0.7fr 1.4fr 0.9fr;
+  grid-template-columns: 0.85fr 1fr 1fr;
   gap: 12px;
-  padding: 0 24px 24px;
+  padding: 0 26px 26px;
 }
 
 .my-tasks-page__stat-card {
   min-width: 0;
-  padding: 16px;
-  border: 1px solid var(--border-soft);
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.34);
+  padding: 16px 18px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
 }
 
-:root[data-theme="dark"] .my-tasks-page__stat-card {
-  background: rgba(255, 255, 255, 0.045);
+[data-theme='light'] .my-tasks-page__stat-card {
+  background: rgba(255, 255, 255, 0.5);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35);
 }
 
 .my-tasks-page__stat-label {
   display: block;
   margin-bottom: 8px;
-  color: var(--text-muted);
+  color: var(--app-text-muted);
   font-size: 0.72rem;
-  font-weight: 780;
+  font-weight: 520;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
 .my-tasks-page__stat-value {
   display: block;
-  color: var(--text-primary);
-  font-size: 1.5rem;
-  font-weight: 600;
-  letter-spacing: -0.05em;
-  line-height: 1;
+  color: var(--app-text-main);
+  font-size: 1.55rem;
+  font-weight: 520;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
 }
 
 .my-tasks-page__stat-value--text {
   font-size: 1rem;
-  font-weight: 760;
-  letter-spacing: -0.025em;
-  line-height: 1.35;
+  font-weight: 520;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
-/* Compact controls toolbar */
+/* =========================================================
+   Controls panel
+   Wrapper around engineer, date/month, filters and actions
+========================================================= */
+
+.my-tasks-page__controls-panel {
+  display: grid;
+  gap: 14px;
+  margin-bottom: 18px;
+  padding: 14px;
+  border-radius: 22px;
+  background:
+    linear-gradient(135deg, var(--app-surface-strong), var(--app-surface));
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+[data-theme='dark'] .my-tasks-page__controls-panel {
+  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.22);
+}
+
+/* =========================================================
+   Toolbar
+   Compact layout: engineer select + date/month control
+   Important: flex prevents date input from stretching too much
+========================================================= */
+
 .my-tasks-page__toolbar {
   display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 12px;
-  margin-bottom: 18px;
+  align-items: end;
+  flex-wrap: wrap;
+  gap: 14px;
 }
 
 .my-tasks-page__control {
   display: flex;
-  align-items: center;
-  gap: 10px;
-  min-height: 44px;
-  padding: 0 14px;
-  border: 1px solid var(--border-soft);
-  border-radius: 999px;
-  background: var(--bg-glass);
-  box-shadow: 0 14px 34px rgba(15, 23, 42, 0.08);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  transition:
-    border-color 180ms ease,
-    box-shadow 180ms ease,
-    background 180ms ease,
-    transform 180ms ease;
-}
-
-:root[data-theme="dark"] .my-tasks-page__control {
-  box-shadow: 0 16px 38px rgba(0, 0, 0, 0.22);
-}
-
-.my-tasks-page__control:focus-within {
-  border-color: rgba(139, 92, 246, 0.52);
-  box-shadow:
-    0 0 0 4px rgba(139, 92, 246, 0.12),
-    0 18px 44px rgba(15, 23, 42, 0.12);
-}
-
-:root[data-theme="dark"] .my-tasks-page__control:focus-within {
-  box-shadow:
-    0 0 0 4px rgba(139, 92, 246, 0.14),
-    0 18px 46px rgba(0, 0, 0, 0.28);
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
 }
 
 .my-tasks-page__control--engineer {
-  width: 280px;
+  width: 360px;
+  max-width: 100%;
 }
 
 .my-tasks-page__control--date {
-  width: 190px;
+  width: 260px;
+  max-width: 100%;
 }
 
-.my-tasks-page__control-icon {
-  flex: 0 0 auto;
-  font-size: 0.95rem;
-  line-height: 1;
-  opacity: 0.8;
+.my-tasks-page__control--month {
+  width: auto;
+  max-width: 100%;
 }
+
+.my-tasks-page__control-label {
+  color: var(--app-text-muted);
+  font-size: 0.72rem;
+  font-weight: 520;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* =========================================================
+   Inputs and selects
+   Shared styling for engineer select and date input
+========================================================= */
 
 .my-tasks-page__select,
 .my-tasks-page__input {
   width: 100%;
-  min-width: 0;
+  min-height: 42px;
+  padding: 0 14px;
   border: 0;
-  outline: 0;
-  background: transparent;
-  color: var(--text-primary);
-  font-size: 0.92rem;
-  font-weight: 620;
+  border-radius: 13px;
+  outline: none;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--app-text-main);
+  font-size: 0.9rem;
+  font-weight: 520;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06),
+    0 6px 18px rgba(0, 0, 0, 0.04);
+  transition:
+    background 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
 }
 
+[data-theme='light'] .my-tasks-page__select,
+[data-theme='light'] .my-tasks-page__input {
+  background: rgba(255, 255, 255, 0.84);
+  box-shadow:
+    inset 0 0 0 1px rgba(7, 17, 31, 0.05),
+    0 8px 20px rgba(21, 43, 70, 0.05);
+}
+
+.my-tasks-page__select:focus,
+.my-tasks-page__input:focus {
+  box-shadow:
+    inset 0 0 0 1px rgba(48, 242, 255, 0.18),
+    0 0 0 4px rgba(48, 242, 255, 0.08),
+    0 8px 22px rgba(0, 0, 0, 0.06);
+}
+
+[data-theme='light'] .my-tasks-page__select:focus,
+[data-theme='light'] .my-tasks-page__input:focus {
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 143, 163, 0.18),
+    0 0 0 4px rgba(0, 143, 163, 0.08),
+    0 8px 22px rgba(21, 43, 70, 0.06);
+}
+
+.my-tasks-page__select:disabled,
+.my-tasks-page__input:disabled {
+  cursor: not-allowed;
+  opacity: 0.58;
+}
+
+/* Custom dropdown arrow for select */
 .my-tasks-page__select {
   appearance: none;
-  cursor: pointer;
-}
-
-.my-tasks-page__select:disabled {
-  cursor: not-allowed;
-  opacity: 0.6;
+  padding-right: 42px;
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--app-text-muted) 50%),
+    linear-gradient(135deg, var(--app-text-muted) 50%, transparent 50%);
+  background-position:
+    calc(100% - 20px) 18px,
+    calc(100% - 15px) 18px;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
 }
 
 .my-tasks-page__select option {
-  background: var(--bg-secondary);
-  color: var(--text-primary);
+  background: #0b1524;
+  color: #ffffff;
 }
 
-.my-tasks-page__input {
-  color-scheme: dark;
+[data-theme='light'] .my-tasks-page__select option {
+  background: #ffffff;
+  color: #07111f;
 }
 
-:root:not([data-theme="dark"]) .my-tasks-page__input {
-  color-scheme: light;
+/* =========================================================
+   Month switcher
+   Used for Completed / Failed / Follow-up / All
+========================================================= */
+
+.my-tasks-page__month-switcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
+
+.my-tasks-page__month-switcher button {
+  min-height: 42px;
+  border: 0;
+  border-radius: 13px;
+  padding: 0 14px;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--app-text-soft);
+  cursor: pointer;
+  font-size: 0.86rem;
+  font-weight: 560;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06),
+    0 6px 14px rgba(0, 0, 0, 0.04);
+  transition:
+    transform 160ms ease,
+    background 160ms ease,
+    box-shadow 160ms ease,
+    color 160ms ease,
+    opacity 160ms ease;
+}
+
+[data-theme='light'] .my-tasks-page__month-switcher button {
+  background: rgba(255, 255, 255, 0.84);
+  box-shadow:
+    inset 0 0 0 1px rgba(7, 17, 31, 0.06),
+    0 8px 18px rgba(21, 43, 70, 0.05);
+}
+
+.my-tasks-page__month-switcher button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  color: var(--app-text-main);
+}
+
+.my-tasks-page__month-current {
+  min-width: 160px;
+  color: #ffffff !important;
+  background: linear-gradient(135deg, var(--app-cyan), #5ef3ff) !important;
+  box-shadow: 0 12px 24px rgba(48, 242, 255, 0.14) !important;
+}
+
+[data-theme='light'] .my-tasks-page__month-current {
+  background: linear-gradient(135deg, #00bcd4, #35d5e8) !important;
+}
+
+/* =========================================================
+   Filter buttons
+   Planned / Completed / Failed / Follow-up / All
+========================================================= */
+
+.my-tasks-page__filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+.my-tasks-page__filters button {
+  min-height: 34px;
+  padding: 0 13px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--app-text-soft);
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 520;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+  transition:
+    transform 160ms ease,
+    background 160ms ease,
+    color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+[data-theme='light'] .my-tasks-page__filters button {
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: inset 0 0 0 1px rgba(7, 17, 31, 0.05);
+}
+
+.my-tasks-page__filters button:hover {
+  transform: translateY(-1px);
+  color: var(--app-text-main);
+}
+
+.my-tasks-page__filters button.active {
+  color: #ffffff;
+  background: linear-gradient(135deg, var(--app-cyan), #5ef3ff);
+  box-shadow: 0 10px 22px rgba(48, 242, 255, 0.14);
+}
+
+[data-theme='light'] .my-tasks-page__filters button.active {
+  background: linear-gradient(135deg, #00bcd4, #35d5e8);
+}
+
+/* =========================================================
+   Selection bar
+   Shows selected tasks and action buttons
+========================================================= */
+
+.my-tasks-page__selection-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  min-height: 50px;
+  padding: 10px 12px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--app-text-soft);
+  font-size: 0.9rem;
+  font-weight: 520;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+[data-theme='light'] .my-tasks-page__selection-bar {
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: inset 0 0 0 1px rgba(7, 17, 31, 0.05);
+}
+
+.my-tasks-page__selection-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.my-tasks-page__selection-button {
+  min-height: 38px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--app-text-soft);
+  cursor: pointer;
+  font-size: 0.84rem;
+  font-weight: 560;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+  transition:
+    transform 160ms ease,
+    background 160ms ease,
+    color 160ms ease,
+    box-shadow 160ms ease,
+    opacity 160ms ease;
+}
+
+[data-theme='light'] .my-tasks-page__selection-button {
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: inset 0 0 0 1px rgba(7, 17, 31, 0.05);
+}
+
+.my-tasks-page__selection-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  color: var(--app-text-main);
+}
+
+.my-tasks-page__selection-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.52;
+}
+
+.my-tasks-page__selection-button--primary {
+  color: #ffffff;
+  background: linear-gradient(135deg, var(--app-cyan), #5ef3ff);
+  box-shadow: 0 10px 22px rgba(48, 242, 255, 0.14);
+}
+
+[data-theme='light'] .my-tasks-page__selection-button--primary {
+  background: linear-gradient(135deg, #00bcd4, #35d5e8);
+}
+
+/* =========================================================
+   Alert
+   Error message box
+========================================================= */
 
 .my-tasks-page__alert {
   margin-bottom: 18px;
   padding: 14px 16px;
-  border: 1px solid rgba(248, 113, 113, 0.26);
-  border-radius: 18px;
-  background: rgba(248, 113, 113, 0.11);
-  color: #ef4444;
+  border-radius: 16px;
+  background: var(--app-danger-soft);
+  color: var(--app-danger);
   font-size: 0.92rem;
-  font-weight: 700;
+  font-weight: 500;
 }
 
-:root[data-theme="dark"] .my-tasks-page__alert {
-  color: #fca5a5;
-  background: rgba(248, 113, 113, 0.1);
-}
+/* =========================================================
+   Empty / loading state
+========================================================= */
 
 .my-tasks-page__state-card {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: 44px 20px;
-  border: 1px solid var(--border-soft);
-  border-radius: 28px;
-  background: var(--bg-glass);
-  box-shadow: var(--shadow-soft);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  padding: 46px 20px;
+  border-radius: 26px;
+  background:
+    linear-gradient(135deg, var(--app-surface-strong), var(--app-surface));
+  box-shadow: var(--app-shadow);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
 }
 
 .my-tasks-page__state-icon {
   display: grid;
   place-items: center;
-  width: 56px;
-  height: 56px;
+  width: 54px;
+  height: 54px;
   margin-bottom: 16px;
-  border: 1px solid rgba(245, 158, 11, 0.26);
-  border-radius: 20px;
-  background:
-    linear-gradient(135deg, rgba(245, 158, 11, 0.14), rgba(139, 92, 246, 0.1));
-  color: #d97706;
+  border-radius: 18px;
+  background: var(--app-cyan-soft);
+  color: var(--app-cyan);
   font-size: 1.4rem;
-  font-weight: 600;
-}
-
-:root[data-theme="dark"] .my-tasks-page__state-icon {
-  color: #fbbf24;
+  font-weight: 520;
 }
 
 .my-tasks-page__state-card h3 {
   margin: 0;
-  color: var(--text-primary);
+  color: var(--app-text-main);
   font-size: 1.15rem;
-  font-weight: 780;
-  letter-spacing: -0.03em;
+  font-weight: 500;
 }
 
 .my-tasks-page__state-card p {
   max-width: 460px;
   margin: 10px 0 0;
-  color: var(--text-secondary);
+  color: var(--app-text-soft);
   font-size: 0.94rem;
   line-height: 1.6;
 }
 
+/* =========================================================
+   Task grid
+========================================================= */
+
 .my-tasks-page__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 16px;
 }
+
+/* =========================================================
+   Task selection wrapper
+   Wrapper around checkbox + TaskCard
+========================================================= */
+
+.my-tasks-page__task-wrapper {
+  position: relative;
+  display: grid;
+  gap: 10px;
+  padding: 8px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.035);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.045),
+    0 10px 24px rgba(0, 0, 0, 0.04);
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease,
+    background 160ms ease;
+}
+
+[data-theme='light'] .my-tasks-page__task-wrapper {
+  background: rgba(255, 255, 255, 0.45);
+  box-shadow:
+    inset 0 0 0 1px rgba(7, 17, 31, 0.04),
+    0 10px 24px rgba(21, 43, 70, 0.04);
+}
+
+.my-tasks-page__task-wrapper--selected {
+  background: rgba(48, 242, 255, 0.075);
+  box-shadow:
+    inset 0 0 0 1px rgba(48, 242, 255, 0.24),
+    0 14px 30px rgba(48, 242, 255, 0.08);
+}
+
+[data-theme='light'] .my-tasks-page__task-wrapper--selected {
+  background: rgba(0, 188, 212, 0.08);
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 143, 163, 0.18),
+    0 14px 30px rgba(0, 143, 163, 0.08);
+}
+
+.my-tasks-page__task-select {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  width: fit-content;
+  min-height: 30px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--app-text-soft);
+  cursor: pointer;
+  font-size: 0.76rem;
+  font-weight: 560;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+  user-select: none;
+}
+
+[data-theme='light'] .my-tasks-page__task-select {
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: inset 0 0 0 1px rgba(7, 17, 31, 0.05);
+}
+
+.my-tasks-page__task-select input {
+  width: 15px;
+  height: 15px;
+  accent-color: var(--app-cyan);
+  cursor: pointer;
+}
+
+.my-tasks-page__task-select input:disabled {
+  cursor: not-allowed;
+}
+
+.my-tasks-page__task-select:has(input:disabled) {
+  cursor: not-allowed;
+  opacity: 0.58;
+}
+
+/* =========================================================
+   Responsive
+========================================================= */
 
 @media (max-width: 900px) {
   .my-tasks-page {
@@ -288,44 +618,69 @@
   }
 
   .my-tasks-page__toolbar {
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: stretch;
   }
 
-  .my-tasks-page__control--engineer {
-    width: min(100%, 320px);
+  .my-tasks-page__control--engineer,
+  .my-tasks-page__control--date,
+  .my-tasks-page__control--month {
+    width: 100%;
   }
 
-  .my-tasks-page__control--date {
-    width: 190px;
+  .my-tasks-page__month-switcher {
+    width: 100%;
+  }
+
+  .my-tasks-page__month-switcher button {
+    flex: 1;
   }
 }
 
-@media (max-width: 620px) {
+@media (max-width: 700px) {
+  .my-tasks-page__selection-bar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .my-tasks-page__selection-actions {
+    justify-content: stretch;
+  }
+
+  .my-tasks-page__selection-button {
+    flex: 1;
+  }
+}
+
+@media (max-width: 600px) {
   .my-tasks-page {
     padding: 12px;
   }
 
-  .my-tasks-page__hero {
+  .my-tasks-page__header {
     border-radius: 24px;
   }
 
-  .my-tasks-page__hero-main {
-    padding: 20px 18px 14px;
+  .my-tasks-page__header-main {
+    padding: 20px 18px 16px;
   }
 
   .my-tasks-page__stats {
     padding: 0 18px 18px;
   }
 
-  .my-tasks-page__toolbar {
-    align-items: stretch;
-    flex-direction: column;
-    gap: 10px;
+  .my-tasks-page__controls-panel {
+    padding: 12px;
+    border-radius: 20px;
   }
 
-  .my-tasks-page__control,
-  .my-tasks-page__control--engineer,
-  .my-tasks-page__control--date {
+  .my-tasks-page__filters {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .my-tasks-page__filters button {
     width: 100%;
   }
 
@@ -333,6 +688,31 @@
     grid-template-columns: 1fr;
   }
 }
+
+@media (max-width: 520px) {
+  .my-tasks-page__month-switcher {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .my-tasks-page__month-current {
+    min-width: 0;
+  }
+}
+
+@media (max-width: 440px) {
+  .my-tasks-page__title {
+    font-size: 2.1rem;
+  }
+
+  .my-tasks-page__filters {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================================================
+   Reduced motion
+========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
   .my-tasks-page *,

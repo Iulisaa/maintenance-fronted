@@ -5,62 +5,79 @@
 .engineers-page__hero {
   position: relative;
   overflow: hidden;
-  margin-bottom: 20px;
-  border: 1px solid var(--border-soft);
-  border-radius: 30px;
-  background: var(--bg-glass);
-  box-shadow: var(--shadow-soft);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+  margin-bottom: 18px;
+  border: 1px solid var(--app-border);
+  border-radius: 28px;
+  background:
+    linear-gradient(
+      135deg,
+      var(--app-surface-strong),
+      var(--app-surface)
+    );
+  box-shadow: var(--app-shadow-soft);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
 }
 
 .engineers-page__hero::before {
   content: "";
   position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(circle at 10% 0%, rgba(139, 92, 246, 0.18), transparent 34%),
-    radial-gradient(circle at 90% 100%, rgba(14, 165, 233, 0.12), transparent 36%);
+  width: 360px;
+  height: 360px;
+  right: -160px;
+  top: -180px;
+  border-radius: 999px;
+  background: var(--app-accent-soft);
+  filter: blur(12px);
+  opacity: 0.8;
   pointer-events: none;
 }
 
-.engineers-page__hero-main,
+.engineers-page__hero-content,
 .engineers-page__stats {
   position: relative;
   z-index: 1;
 }
 
-.engineers-page__hero-main {
+.engineers-page__hero-content {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 20px;
-  padding: 24px 24px 18px;
+  gap: 24px;
+  padding: 26px 26px 20px;
+}
+
+.engineers-page__hero-copy {
+  min-width: 0;
+}
+
+.engineers-page__hero-actions {
+  flex: 0 0 auto;
 }
 
 .engineers-page__eyebrow {
   margin: 0 0 8px;
-  color: var(--text-muted);
+  color: var(--app-accent);
   font-size: 0.72rem;
-  font-weight: 780;
-  letter-spacing: 0.13em;
+  font-weight: 500;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
 .engineers-page__title {
   margin: 0;
-  color: var(--text-primary);
-  font-size: clamp(1.7rem, 2vw, 2.2rem);
-  font-weight: 600;
+  color: var(--app-text-main);
+  font-size: clamp(1.8rem, 3vw, 2.45rem);
+  font-weight: 520;
   letter-spacing: -0.055em;
   line-height: 1.05;
 }
 
 .engineers-page__subtitle {
-  max-width: 640px;
+  max-width: 680px;
   margin: 10px 0 0;
-  color: var(--text-secondary);
-  font-size: 0.97rem;
+  color: var(--app-text-soft);
+  font-size: 0.96rem;
   line-height: 1.6;
 }
 
@@ -68,94 +85,80 @@
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
-  padding: 0 24px 24px;
+  padding: 0 26px 26px;
 }
 
 .engineers-page__stat-card {
   padding: 16px;
-  border: 1px solid var(--border-soft);
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.34);
+  border: 1px solid var(--app-border);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.3);
 }
 
-:root[data-theme="dark"] .engineers-page__stat-card {
+:root[data-theme='dark'] .engineers-page__stat-card {
   background: rgba(255, 255, 255, 0.045);
 }
 
 .engineers-page__stat-label {
   display: block;
   margin-bottom: 8px;
-  color: var(--text-muted);
+  color: var(--app-text-muted);
   font-size: 0.72rem;
-  font-weight: 780;
+  font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
 .engineers-page__stat-value {
   display: block;
-  color: var(--text-primary);
-  font-size: 1.5rem;
-  font-weight: 600;
+  color: var(--app-text-main);
+  font-size: 1.65rem;
+  font-weight: 520;
   letter-spacing: -0.05em;
   line-height: 1;
 }
 
-/* Compact toolbar */
 .engineers-page__toolbar {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  gap: 12px;
+  justify-content: space-between;
+  gap: 16px;
   margin-bottom: 18px;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  box-shadow: none;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
 }
 
 .engineers-page__search {
   display: flex;
   align-items: center;
   gap: 10px;
-  width: 320px;
+  width: min(100%, 360px);
   min-height: 44px;
   padding: 0 14px;
-  border: 1px solid var(--border-soft);
+  border: 1px solid var(--app-border);
   border-radius: 999px;
-  background: var(--bg-glass);
-  box-shadow: 0 14px 34px rgba(15, 23, 42, 0.08);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background:
+    linear-gradient(
+      135deg,
+      var(--app-surface-strong),
+      var(--app-surface)
+    );
+  box-shadow: var(--app-shadow-soft);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
   transition:
-    width 180ms ease,
-    border-color 180ms ease,
-    box-shadow 180ms ease,
-    background 180ms ease;
-}
-
-:root[data-theme="dark"] .engineers-page__search {
-  box-shadow: 0 16px 38px rgba(0, 0, 0, 0.22);
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    background 160ms ease;
 }
 
 .engineers-page__search:focus-within {
-  width: 380px;
-  border-color: rgba(139, 92, 246, 0.52);
+  border-color: var(--app-accent);
   box-shadow:
-    0 0 0 4px rgba(139, 92, 246, 0.12),
-    0 18px 44px rgba(15, 23, 42, 0.12);
-}
-
-:root[data-theme="dark"] .engineers-page__search:focus-within {
-  box-shadow:
-    0 0 0 4px rgba(139, 92, 246, 0.14),
-    0 18px 46px rgba(0, 0, 0, 0.28);
+    0 0 0 4px var(--app-accent-soft),
+    var(--app-shadow-soft);
 }
 
 .engineers-page__search-icon {
-  color: var(--text-muted);
+  color: var(--app-text-muted);
   font-size: 1rem;
   line-height: 1;
 }
@@ -165,19 +168,20 @@
   border: 0;
   outline: 0;
   background: transparent;
-  color: var(--text-primary);
+  color: var(--app-text-main);
   font-size: 0.92rem;
   font-weight: 620;
 }
 
 .engineers-page__search-input::placeholder {
-  color: var(--text-muted);
+  color: var(--app-text-muted);
   font-weight: 520;
 }
 
 .engineers-page__toolbar-meta {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   gap: 10px;
   flex: 0 0 auto;
 }
@@ -187,33 +191,28 @@
   align-items: center;
   min-height: 36px;
   padding: 0 12px;
-  border: 1px solid var(--border-soft);
+  border: 1px solid var(--app-border);
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.28);
-  color: var(--text-secondary);
+  color: var(--app-text-soft);
   font-size: 0.82rem;
-  font-weight: 720;
+  font-weight: 520;
   white-space: nowrap;
 }
 
-:root[data-theme="dark"] .engineers-page__results-count {
+:root[data-theme='dark'] .engineers-page__results-count {
   background: rgba(255, 255, 255, 0.045);
 }
 
 .engineers-page__alert {
   margin-bottom: 18px;
   padding: 14px 16px;
-  border: 1px solid rgba(248, 113, 113, 0.26);
-  border-radius: 18px;
-  background: rgba(248, 113, 113, 0.11);
-  color: #ef4444;
+  border: 1px solid rgba(248, 113, 113, 0.28);
+  border-radius: 16px;
+  background: var(--app-danger-soft);
+  color: var(--app-danger);
   font-size: 0.92rem;
-  font-weight: 700;
-}
-
-:root[data-theme="dark"] .engineers-page__alert {
-  color: #fca5a5;
-  background: rgba(248, 113, 113, 0.1);
+  font-weight: 500;
 }
 
 .engineers-page__state-card {
@@ -221,45 +220,46 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: 44px 20px;
-  border: 1px solid var(--border-soft);
-  border-radius: 28px;
-  background: var(--bg-glass);
-  box-shadow: var(--shadow-soft);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  padding: 46px 20px;
+  border: 1px solid var(--app-border);
+  border-radius: 26px;
+  background:
+    linear-gradient(
+      135deg,
+      var(--app-surface-strong),
+      var(--app-surface)
+    );
+  box-shadow: var(--app-shadow-soft);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
 }
 
 .engineers-page__state-icon {
   display: grid;
   place-items: center;
-  width: 56px;
-  height: 56px;
+  width: 54px;
+  height: 54px;
   margin-bottom: 16px;
-  border: 1px solid rgba(139, 92, 246, 0.26);
-  border-radius: 20px;
-  background: linear-gradient(135deg, var(--accent-soft), rgba(255, 255, 255, 0.1));
-  color: var(--accent-strong);
+  border: 1px solid rgba(48, 242, 255, 0.28);
+  border-radius: 18px;
+  background: var(--app-accent-soft);
+  color: var(--app-accent);
   font-size: 1.4rem;
-  font-weight: 60;
-}
-
-:root[data-theme="dark"] .engineers-page__state-icon {
-  color: #ddd6fe;
+  font-weight: 500;
 }
 
 .engineers-page__state-card h3 {
   margin: 0;
-  color: var(--text-primary);
+  color: var(--app-text-main);
   font-size: 1.15rem;
-  font-weight: 780;
+  font-weight: 500;
   letter-spacing: -0.03em;
 }
 
 .engineers-page__state-card p {
   max-width: 420px;
   margin: 10px 0 0;
-  color: var(--text-secondary);
+  color: var(--app-text-soft);
   font-size: 0.94rem;
   line-height: 1.6;
 }
@@ -275,19 +275,20 @@
   align-items: center;
   justify-content: center;
   gap: 9px;
-  min-height: 44px;
+  min-height: 42px;
   padding: 0 18px;
   border: 1px solid transparent;
   border-radius: 999px;
   cursor: pointer;
   font-size: 0.9rem;
-  font-weight: 760;
+  font-weight: 500;
   transition:
-    transform 180ms ease,
-    border-color 180ms ease,
-    background 180ms ease,
-    box-shadow 180ms ease,
-    color 180ms ease;
+    transform 160ms ease,
+    border-color 160ms ease,
+    background 160ms ease,
+    box-shadow 160ms ease,
+    color 160ms ease,
+    opacity 160ms ease;
 }
 
 .engineers-page__button:hover {
@@ -295,28 +296,29 @@
 }
 
 .engineers-page__button--primary {
-  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+  background: linear-gradient(135deg, var(--app-accent), var(--app-accent-strong));
   color: #ffffff;
-  box-shadow: 0 16px 36px rgba(99, 102, 241, 0.24);
+  box-shadow: 0 14px 32px rgba(48, 242, 255, 0.16);
 }
 
-:root[data-theme="dark"] .engineers-page__button--primary {
-  box-shadow: 0 16px 42px rgba(139, 92, 246, 0.28);
+:root[data-theme='dark'] .engineers-page__button--primary {
+  box-shadow: 0 14px 36px rgba(139, 92, 246, 0.24);
 }
 
 .engineers-page__button--ghost {
-  border-color: var(--border-soft);
-  background: rgba(255, 255, 255, 0.38);
-  color: var(--text-secondary);
+  border-color: var(--app-border);
+  background: rgba(255, 255, 255, 0.32);
+  color: var(--app-text-soft);
 }
 
-:root[data-theme="dark"] .engineers-page__button--ghost {
+:root[data-theme='dark'] .engineers-page__button--ghost {
   background: rgba(255, 255, 255, 0.055);
 }
 
 .engineers-page__button--ghost:hover {
-  border-color: var(--border-strong);
-  color: var(--text-primary);
+  border-color: var(--app-border-strong);
+  background: var(--app-surface-hover);
+  color: var(--app-text-main);
 }
 
 @media (max-width: 900px) {
@@ -324,9 +326,13 @@
     padding: 16px;
   }
 
-  .engineers-page__hero-main {
+  .engineers-page__hero-content {
     flex-direction: column;
     align-items: stretch;
+  }
+
+  .engineers-page__hero-actions {
+    width: 100%;
   }
 
   .engineers-page__button--primary {
@@ -338,19 +344,16 @@
   }
 
   .engineers-page__toolbar {
-    justify-content: space-between;
+    align-items: stretch;
+    flex-direction: column;
   }
 
   .engineers-page__search {
-    width: min(100%, 340px);
-  }
-
-  .engineers-page__search:focus-within {
-    width: min(100%, 380px);
+    width: 100%;
   }
 
   .engineers-page__toolbar-meta {
-    justify-content: flex-end;
+    justify-content: space-between;
   }
 }
 
@@ -363,35 +366,29 @@
     border-radius: 24px;
   }
 
-  .engineers-page__hero-main {
-    padding: 20px 18px 14px;
+  .engineers-page__hero-content {
+    padding: 20px 18px 16px;
   }
 
   .engineers-page__stats {
     padding: 0 18px 18px;
   }
 
-  .engineers-page__toolbar {
-    align-items: stretch;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .engineers-page__search,
-  .engineers-page__search:focus-within {
-    width: 100%;
-  }
-
-  .engineers-page__toolbar-meta {
-    justify-content: space-between;
-  }
-
   .engineers-page__cards-grid {
     grid-template-columns: 1fr;
   }
 
+  .engineers-page__toolbar-meta {
+    gap: 8px;
+  }
+
+  .engineers-page__results-count {
+    flex: 1;
+    justify-content: center;
+  }
+
   .engineers-page__button--ghost {
-    width: auto;
+    flex: 0 0 auto;
   }
 }
 
